@@ -1,17 +1,21 @@
 const { DateTime } = require("luxon")
-// const pluginSEO = require("eleventy-plugin-seo")
+const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight")
 
 module.exports = function (eleventyConfig) {
+    // Passing through style.css and assets folder to public
     eleventyConfig.addPassthroughCopy("./src/style.css")
     eleventyConfig.addPassthroughCopy("./src/assets")
 
+    // Filter for human redeable dates
     eleventyConfig.addFilter("postDate", (dateObj) => {
         return DateTime.fromJSDate(dateObj).toLocaleString(DateTime.DATE_MED)
     })
 
+    // Current year short code
     eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`)
 
-    // eleventyConfig.addPlugin(pluginSEO, require("./src/_data/seo.json"))
+    // Syntax highlighting with prism.js
+    eleventyConfig.addPlugin(syntaxHighlight)
 
     return {
         dir: {
